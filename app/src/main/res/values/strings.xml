@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Tahmini Ömür Hesaplama</string>
+    <string name="berechne_dein_ger">Berechne dein Alter, in Jahr, in Monat,in Week, in Tag, in Stunde, in Minuten</string>
+    <string name="AusgewähltesDatum">Ausgewähltes Datum</string>
+    <string name="switch_button">Button</string>
+    <string name="text_yil">Yil</string>
+    <string name="text_ay">Ay</string>
+    <string name="text_hafta">Hafta</string>
+    <string name="text_gun">Gün</string>
+    <string name="text_saat">Saat</string>
+    <string name="text_dakika">Dakika</string>
+    <string name="text_saniye">Saniye</string>
+    <string name="omur_hesapla">HESAPLA</string>
+    <string name="textView">Text View</string>
+    <string name="editText_birt_day">Dogum Tarihinizi Girin</string>
+    <string name="editText_death_day">Ölmek istediginiz Tarihi Giriniz</string>
+
+</resources>

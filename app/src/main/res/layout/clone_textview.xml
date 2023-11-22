@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="45dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/standard_margin"
+    android:padding="@dimen/standard_padding"
+    android:background="@drawable/background_curve"
+    android:textColor="@color/white"
+    android:gravity="center"
+    tools:text="@string/textView"
+    tools:ignore="MissingConstraints" />

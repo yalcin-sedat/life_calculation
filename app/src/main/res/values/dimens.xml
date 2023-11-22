@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Padding değerleri -->
+    <dimen name="standard_padding">4dp</dimen>
+    <dimen name="large_padding">8dp</dimen>
+    <!-- Margin değerleri -->
+    <dimen name="standard_margin">4dp</dimen>
+    <dimen name="large_margin">8dp</dimen>
+</resources>
