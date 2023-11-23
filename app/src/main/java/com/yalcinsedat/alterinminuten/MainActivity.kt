@@ -2,14 +2,16 @@ package com.yalcinsedat.alterinminuten
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.ResourcesCompat
 import com.yalcinsedat.alterinminuten.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
@@ -17,48 +19,43 @@ import java.util.TimeZone
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    var dayOfMonth_: String? = null
-    var month_: String? = null
-    var year_: String? = null
 
+    var birthDate: LocalDate? =null
+    var deathDate:LocalDate?  =null
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    var dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//----------------------------------Spinner---------------------------------------------------------
 
-        binding.buttonSpinner.setOnClickListener { openSpinnerBirthdayDialog() }
-        binding.tViewBirthDay.setOnClickListener { tViewBirthDay() }
-        binding.tViewDeathDay.setOnClickListener { tViewDeathDay()}
-
-       // binding.buttonMdc.setOnClickListener { openMDCDatePicker() }
+        binding.tViewBirthDay1.setOnClickListener { birthdayDialog() }
+        binding.tViewDeathDay1.setOnClickListener { deathDayDialog()}
+        binding.tViewRemainingLife1.setOnClickListener { remainingLife()}
 
     }
-
+    //-----------------------------------birthdayDialog-----------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
-    private fun openSpinnerBirthdayDialog() {
+    private fun birthdayDialog() {
         val calendar = Calendar.getInstance().apply {
             // Bugünün tarihini ayarla
             time = Date()
         }
-
         val maxYear = 3000 // 3000 yılı
         val minYear = -1900 // 100 yil önce
-
-    //---------------DatePickerDialog--------------------------------------------------------------------
         DatePickerDialog(
             this, R.style.SpinnerDatePickerDialog,
             { _, year, month, dayOfMonth ->
 
-               // Toast.makeText(this, formatDate(year, month, dayOfMonth), Toast.LENGTH_SHORT).show()
-               // binding.eTextBirthDay.setText(dayOfMonth.toString(),month.toString(),year.toString())
-               // binding.eTextBirthDay.text = ("$dayOfMonth/$month/$year")
-
-                dayOfMonth_ = dayOfMonth.toString()
-                month_ = (month + 1).toString() // Ay 0'dan başlar, bu yüzden +1 ekleniyor
-                year_ = year.toString()
+                birthDate = LocalDate.of(year,month,dayOfMonth)
 
 
-
+                binding.tViewBirthDay.setText((birthDate).toString())
 
             },
             calendar[Calendar.YEAR],
@@ -72,19 +69,53 @@ class MainActivity : AppCompatActivity() {
             }
         }.show()
     }
-    //---------------DatePickerDialog--------------------------------------------------------------------
-     fun tViewBirthDay(){
-        openSpinnerBirthdayDialog()
-        binding.tViewBirthDay.setText("$dayOfMonth_/$month_/$year_")
+    //-----------------------------------birthdayDialog-----------------------------------------------------
 
-
-     }
-
-    fun tViewDeathDay(){
-        openSpinnerBirthdayDialog()
-        binding.tViewDeathDay.setText("$dayOfMonth_/$month_/$year_")
-
+    //----------------------------------DatePickerDialog--------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n")
+    private fun deathDayDialog() {
+        val calendar = Calendar.getInstance().apply {
+            // Bugünün tarihini ayarla
+            time = Date()
+        }
+        val maxYear = 3000 // 3000 yılı
+        val minYear = -1900 // 100 yil önce
+        DatePickerDialog(
+            this, R.style.SpinnerDatePickerDialog,
+            { _, year, month, dayOfMonth ->
+                deathDate = LocalDate.of(year,month,dayOfMonth)
+                binding.tViewDeathDay.setText((deathDate).toString())
+            },
+            calendar[Calendar.YEAR],
+            calendar[Calendar.MONTH],
+            calendar[Calendar.DAY_OF_MONTH]
+        ).apply {
+            // Minimum tarih olarak 1900, maksimum tarih olarak 3000 yılını belirle
+            datePicker.apply {
+                minDate = getMinimumDate(minYear) // Minimum tarih
+                maxDate = getMaximumDate(maxYear) // Maksimum tarih (3000 yılı)
+            }
+        }.show()
     }
+
+    //----------------------------------deathdayDialog----------------------------------------------------------
+    //---------------------remainingLife------------------------------------------------------------
+     @RequiresApi(Build.VERSION_CODES.O)
+     fun remainingLife(){
+        val dateDifference = calculateDateDifference(birthDate, deathDate)
+        val years = dateDifference.years
+        val months = dateDifference.months
+        val days = dateDifference.days
+
+        binding.tViewRemainingLife.setText("${years} yil ${months} ay ${days} gün kaldi.")
+       // binding.tViewRemainingLife.setText("${dateDifference.years} yil ${dateDifference.months} ay ${dateDifference.days} gün kaldi.")c
+     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateDateDifference(startDate: LocalDate?, endDate: LocalDate?): Period {
+        return Period.between(startDate, endDate)
+    }
+    //---------------------remainingLife------------------------------------------------------------
     // Belirli bir yılı tarih cinsine çevirerek geri döndürür
     private fun getMaximumDate(year: Int): Long {
         val maxCalendar = Calendar.getInstance().apply {
@@ -100,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         return minCalendar.timeInMillis
     }
    //-----------------------------------------------
-    private fun formatDate(date: Date) = SimpleDateFormat.getDateInstance().apply { timeZone = TimeZone.getTimeZone("UTC") }.format(date)
+    private fun formatDate(date: Date) = SimpleDateFormat.getDateInstance().apply{ timeZone = TimeZone.getTimeZone("UTC") }.format(date)
 
     private fun formatDate(year: Int, month: Int, dayOfMonth: Int) = formatDate(Calendar.getInstance().apply {
         timeZone = TimeZone.getTimeZone("UTC")
@@ -131,6 +162,16 @@ class MainActivity : AppCompatActivity() {
         binding.themeSwitch.setOnCheckedChangeListener(null)
     }
 
+
 }
+
+
+
+
+
+
+
+
+
 
 

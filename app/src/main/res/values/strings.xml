@@ -12,7 +12,8 @@
     <string name="text_saniye">Saniye</string>
     <string name="omur_hesapla">HESAPLA</string>
     <string name="textView">Text View</string>
-    <string name="editText_birt_day">Dogum Tarihinizi Girin</string>
-    <string name="editText_death_day">Ölmek istediginiz Tarihi Giriniz</string>
+    <string name="editText_birt_day">Dogum Tarihi</string>
+    <string name="editText_death_day">Ölüm Tarihi</string>
+    <string name="editText_remaining_life">Kalan Ömür</string>
 
 </resources>
