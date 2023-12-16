@@ -1,0 +1,8 @@
+<resources>
+    <!-- Spinner Öğesi Stili -->
+    <style name="MySpinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">#FF0000</item> <!-- Metin rengi kırmızı -->
+        <item name="android:textSize">18sp</item> <!-- Metin boyutu 18sp -->
+    </style>
+
+</resources>

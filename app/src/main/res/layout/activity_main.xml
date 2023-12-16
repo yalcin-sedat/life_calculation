@@ -9,18 +9,6 @@
     tools:context=".MainActivity"
     tools:ignore="HardcodedText">
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/theme_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.952"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-
     <LinearLayout
         android:id="@+id/switch_linearLayout"
         android:layout_width="match_parent"
@@ -30,105 +18,175 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/theme_switch"
         tools:ignore="MissingConstraints">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   android:orientation="vertical"
+    android:background="@drawable/background_curve">
 
-        <TextView
-            android:id="@+id/tView_birth_day1"
+    <Spinner
+        android:id="@+id/spinner_countries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MySpinnerItemStyle">
+    </Spinner>
+    <TextView
+        android:id="@+id/tView_time_life"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorLink="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="dd/MM/yyyy"
+        android:background="@drawable/background_curve_text"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
+        app:layout_constraintVertical_bias="0.964">
+
+    </TextView>
+    <TextView
+        android:id="@+id/tView_birth_day1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="dogum Tarihinizi Girin"
+        android:inputType="datetime"
+        android:text="@string/editText_birt_day"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88">
+
+    </TextView>
+    <TextView
+        android:id="@+id/tView_birth_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorLink="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/background_curve_text"
+        android:inputType="datetime"
+        android:text="dd/MM/yyyy"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88">
+
+    </TextView>
+
+
+</LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/background_curve_layout">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/result_liearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:autofillHints="dogum Tarihinizi Girin"
-            android:background="@drawable/background_curve"
-            android:inputType="datetime"
-            android:text="@string/editText_birt_day"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88">
+            android:orientation="vertical"
+            android:background="@drawable/background_result">
 
-        </TextView>
-        <TextView
-            android:id="@+id/tView_birth_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/background_curve_text"
-            android:inputType="datetime"
-            android:text="dd/MM/yyyy"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88">
+            <TextView
+                android:id="@+id/tView_death_day1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/editText_death_day"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
+                app:layout_constraintVertical_bias="0.964">
 
-        </TextView>
+            </TextView>
 
-        <TextView
-            android:id="@+id/tView_death_day1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/background_curve"
-            android:text="@string/editText_death_day"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-            app:layout_constraintVertical_bias="0.964">
+            <TextView
+                android:id="@+id/tView_death_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorLink="@color/black"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="dd/MM/yyyy"
+                android:background="@drawable/background_curve_text"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
+                app:layout_constraintVertical_bias="0.964">
 
-        </TextView>
+            </TextView>
+            <TextView
+                android:id="@+id/tView_alter1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/editText_alter"
+                android:textColor="@color/white">
 
-        <TextView
-            android:id="@+id/tView_death_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="dd/MM/yyyy"
-            android:background="@drawable/background_curve_text"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-            app:layout_constraintVertical_bias="0.964">
+            </TextView>
+            <TextView
+                android:id="@+id/tView_alter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorLink="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/background_curve_text"
+                android:gravity="center"
+                android:text="dd/MM/yyyy">
 
-        </TextView>
-        <TextView
-            android:id="@+id/tView_remaining_life1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/background_curve"
-            android:text="@string/editText_remaining_life"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-            app:layout_constraintVertical_bias="0.964">
+            </TextView>
 
-        </TextView>
-        <TextView
-            android:id="@+id/tView_remaining_life"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="dd/MM/yyyy"
-            android:background="@drawable/background_curve_text"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-            app:layout_constraintVertical_bias="0.964">
 
-        </TextView>
+
+            <TextView
+                android:id="@+id/tView_remaining_life1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="@string/editText_remaining_life"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
+                app:layout_constraintVertical_bias="0.964">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tView_remaining_life"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorLink="@color/black"
+                android:textStyle="bold"
+                android:background="@drawable/background_curve_text"
+                android:gravity="center"
+                android:text="dd/MM/yyyy"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
+                app:layout_constraintVertical_bias="0.964">
+
+            </TextView>
+        </LinearLayout>
+
 
 
     </LinearLayout>
@@ -141,53 +199,98 @@
         android:background="@drawable/background_curve_layout"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_spinner"
+        app:layout_constraintBottom_toTopOf="@+id/button_calculater"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/theme_switch"
-        app:layout_constraintVertical_bias="0.918"
+        app:layout_constraintTop_toBottomOf="@+id/switch_linearLayout"
+        app:layout_constraintVertical_bias="0.962"
         tools:ignore="MissingConstraints">
 
 
-        <include
-            android:id="@+id/text_view_year"
-            layout="@layout/clone_textview" />
+        <TextView
+            android:id="@+id/tvDownYears"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="year"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
+        <TextView
+            android:id="@+id/tvDownMonths"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Mounths"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
+        <TextView
+            android:id="@+id/tvDownWeeks"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="week"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
 
-        <include
-            android:id="@+id/text_view_month"
-            layout="@layout/clone_textview" />
-
-        <include
-            android:id="@+id/text_view_week"
-            layout="@layout/clone_textview" />
-
-        <include
-            android:id="@+id/text_view_day"
-            layout="@layout/clone_textview" />
-
-        <include
-            android:id="@+id/text_view_hour"
-            layout="@layout/clone_textview" />
-
-        <include
-            android:id="@+id/text_view_minute"
-            layout="@layout/clone_textview" />
-
-        <include
-            android:id="@+id/text_view_second"
-            layout="@layout/clone_textview" />
+        <TextView
+            android:id="@+id/tvDownDays"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Day"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
+        <TextView
+            android:id="@+id/tvDownHours"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Hours"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
+        <TextView
+            android:id="@+id/tvDownMinute"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Minute"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
+        <TextView
+            android:id="@+id/tvDownSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Second"
+            android:textColor="@color/black"
+            android:background="@drawable/background_curve_text">
+        </TextView>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_spinner"
+        android:id="@+id/button_calculater"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
         android:text="@string/omur_hesapla"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/omur_reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_calculater"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.641"
+        tools:ignore="MissingConstraints" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
