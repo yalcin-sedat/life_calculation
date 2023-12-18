@@ -5,4 +5,7 @@
         <item name="android:textSize">18sp</item> <!-- Metin boyutu 18sp -->
     </style>
 
+    <style name="AppThemeNoActionBar_" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Diğer stil özellikleri -->
+    </style>
 </resources>
