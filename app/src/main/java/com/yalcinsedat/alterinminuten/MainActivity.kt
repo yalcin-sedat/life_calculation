@@ -1,4 +1,5 @@
 package com.yalcinsedat.alterinminuten
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -7,13 +8,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import com.yalcinsedat.alterinminuten.databinding.ActivityMainBinding
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -24,7 +24,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
-import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,36 +35,42 @@ class MainActivity : AppCompatActivity() {
     var lifeExpectancy :Int = 0
     var selectedCountry :String? = null
 
-    var year_ :Int? = null
-    var month_ :Int? = null
-    var dayOfMonth_ :Int? = null
+    var yearDeath :Int? = null
+    var monthDeath :Int? = null
+    var dayOfMonthDeath :Int? = null
 
     private var yearsLife:Int? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     var today = LocalDateTime.now()
+
     var animationHelper = AnimationHelper(this)
+    //val customProgressBar = CustomProgressBar(this)
 
 
+    private var timerSeconds:String? =null
+    private var timerMinutes:String? =null
+    private var timerHours:  String? =null
+    private var timerDays:   String? =null
+    private var timerWeeks:  String? =null
+    private var timerMonths: String? =null
+    private var timerYears:  String? =null
 
-
-    var downSeconds: Long? =null
-    var downMinutes: Long? =null
-    var downHours: Long? =null
-    var downDays: Long? =null
-    var downWeeks: Long? =null
-    var downMonths: Long? =null
-    var downYears: Long? =null
-
-
-
-    var remainingYears: Long? =null
-    var remainingMonths: Long? =null
-    var remainingWeeks: Long? =null
-    var remainingDays: Long? =null
-    var remainingHours: Long? =null
+    var remainingYears:   Long? =null
+    var remainingMonths:  Long? =null
+    var remainingWeeks:   Long? =null
+    var remainingDays:    Long? =null
+    var remainingHours:   Long? =null
     var remainingMinutes: Long? =null
     var remainingSeconds: Long? =null
+
+    var birthYears: Long? =null
+
+    var timer: Timer? = null
+    var desiredProgress:Int?=0
+
+    var flag:Boolean?=true
+
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +78,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        flag=true
+
         lifeTime()
-        resetLife()
+        //resetLife()
 
         binding.buttonCalculater.setOnClickListener{calculate()}
         binding.tViewBirthDay.setOnClickListener { birthdayDialog()}
@@ -82,197 +89,10 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun resetLife(){
-        binding.tViewBirthDay.text = ""
-        binding.tViewDeathDay.text = ""
-        binding.tViewRemainingLife.text = ""
-        binding.tViewTimeLife.text = ""
-        binding.tViewAlter.text=""
-
-        birthDate=null
-        deathDate=null
-        lifeTime()
-
-
-    }
-
-    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun calculate(){
-        if (!selectedCountry.equals("Ülke Sec")){
-            alter()
-            remainingLife()
-        }else{
-            animationHelper.showAnimatedToast("Lütfen, Yasadiginiz Ülkeyi Secin ")
-        }
-
-        if (birthDate==null)
-            animationHelper.showAnimatedToast("Lütfen, Dogum Tarihinizi  Girin ")
-
-        if (dayOfMonth_ !=null && month_!=null && year_!=null && lifeExpectancy!=null)
-
-        binding.tViewDeathDay.text="$dayOfMonth_ / ${month_!! +1} /${year_!! +lifeExpectancy}"
-
-        if (yearsLife!=null){
-
-            if ( yearsLife in 0..30)
-                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_young)
-
-            if (yearsLife!! in 31..49)
-                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_old)
-
-             if (yearsLife!!>50)
-                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_very_old)
-
-            if (yearsLife!! > 83) {
-                binding.tViewDeathDay.text="Allah Rahmet Etsin :("
-                binding.tViewRemainingLife.text="Allah Rahmet Etsin :("
-                binding.tViewAlter.text="Allah Rahmet Etsin :("
-            }
-
-            }
-
-       // downCount()
-        timer()
-
-
-    }
-
-    //Yasadigi Süre
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun alter(){
-        if (birthDate!=null && today!=null){
-
-            val difference: Duration = Duration.between(birthDate, today)
-            val years:Long    = difference.toDays() / 365
-            val months: Long  = difference.toDays() / 30
-            val weeks: Long   = difference.toDays() / 7
-            val days: Long    = difference.toDays()
-            val hours: Long   = difference.toHours()
-            val minutes: Long = difference.toMinutes()
-            val seconds: Long = difference.seconds
-
-            yearsLife = years.toInt()
-
-            var formattedYears   = NumberFormat.getNumberInstance(Locale("tr", "TR")).format(years)
-
-            val formattedMonths  = (months % 12).toString()
-            val formattedWeeks   = ((weeks % 52)%4).toString()
-            val formattedDays    = (((days % 360)%30)%7).toString()
-            val formattedHours   = ((hours % 8766)%24).toString()
-            val formattedMinutes = ((minutes % 525960)%60).toString()
-            val formattedSeconds = ((seconds % 31557600)%60).toString()
-
-            val year_  = (if(formattedYears> 0.toString())    "${formattedYears} yil"             else "" ).toString()
-            val month_  = (if(formattedMonths> 0.toString())   "${formattedMonths} Ay"             else "" ).toString()
-            val weeks_  = (if(formattedWeeks> 0.toString())    "${formattedWeeks} Hafta"           else "" ).toString()
-            val days_   = (if(formattedDays> 0.toString())     "${formattedDays} Gün"              else "" ).toString()
-            val hours_  = (if(formattedHours> 0.toString())    "${formattedHours} Saat"            else "" ).toString()
-            val minute_ = (if(formattedMinutes> 0.toString())  "${formattedMinutes} Dakika"        else "" ).toString()
-            val seconds_= (if(formattedSeconds> 0.toString())  "${formattedSeconds} Saniye"        else "" ).toString()
-
-            binding.tViewAlter.text ="$year_ $month_ $weeks_ $days_ $hours_ $minute_ $seconds_"
-
-        }else{
-          //  animationHelper.showAnimatedToast("Lütfen Tarih Giriniz")
-
-        }
-
-    }
-
-    //-----------------------------------birthdayDialog---------------------------------------------
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n")
-    private fun birthdayDialog() {
-        val calendar = Calendar.getInstance().apply {
-            // Bugünün tarihini ayarla
-            time = Date()
-        }
-        val minYear = -1900 // 100 yil önce
-        val maxYear =  2020 // 3000 yılı
-
-        DatePickerDialog(
-            this, R.style.SpinnerDatePickerDialog,
-            { _, year, month, dayOfMonth ->
-
-                birthDate = LocalDateTime.of(year, month+1, dayOfMonth, 0, 0, 0)
-
-                year_=year
-                month_=month
-                dayOfMonth_=dayOfMonth
-
-                deathDate = LocalDateTime.of(year+lifeExpectancy, month+1, dayOfMonth, 0, 0, 0) // Bitiş tarihi ve saati
-
-                if (year!=null ||month!=null ||year!=null){
-
-                    binding.tViewBirthDay.text="$dayOfMonth / ${month+1} / $year"
-                   // binding.tViewDeathDay.text="$dayOfMonth . ${month+1} . ${year+lifeExpectancy}"
-
-                } else{
-                    //animationHelper.showAnimatedToast("Lütfen, Dogum Tarihinizi  Giriniz")
-                }
-            },
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH]
-        ).apply {
-            // Minimum tarih olarak 1900, maksimum tarih olarak 3000 yılını belirle
-            datePicker.apply {
-
-                maxDate = getMaximumDate(maxYear) // Maksimum tarih
-                minDate = getMinimumDate(minYear) // Minimum tarih
-            }
-        }.show()
-    }
-    //-----------------------------------birthdayDialog---------------------------------------------
-
-    //----------------------------------DatePickerDialog--------------------------------------------
-    /*
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n")
-    private fun deathDayDialog() {
-        val calendar = Calendar.getInstance().apply {
-            // Bugünün tarihini ayarla
-            time = Date()
-        }
-        val maxYear = 3000 // 3000 yılı
-        val minYear = -2024// 100 yil önce
-
-        DatePickerDialog(
-            this, R.style.SpinnerDatePickerDialog,
-            { _, year, month, dayOfMonth ->
-               deathDate = LocalDateTime.of(year, month+1, dayOfMonth, 0, 0, 0) // Bitiş tarihi ve saati
-
-                if (year!=null ||month!=null ||year!=null){
-
-                    //binding.tViewDeathDay.setText((deathDate).toString())
-
-                   // binding.tViewDeathDay.text="$dayOfMonth / ${month+1} / $year"
-
-                } else{
-                    animationHelper.showAnimatedToast("Lütfen Tarih  Giriniz")
-                }
-            },
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH]
-        ).apply {
-            // Minimum tarih olarak 1900, maksimum tarih olarak 3000 yılını belirle
-            datePicker.apply {
-                minDate = getMinimumDate(minYear) // Minimum tarih
-                maxDate = getMaximumDate(maxYear) // Maksimum tarih (3000 yılı)
-            }
-        }.show()
-    }
-
-     */
-
-    //----------------------deathdayDialog----------------------------------------------------------
     //--------------------ülkelere göre Yasam süreleri------------------------------------------------------------
-     @SuppressLint("SetTextI18n")
-     @RequiresApi(Build.VERSION_CODES.O)
-     fun lifeTime(){
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun lifeTime(){
 
         val countryLifeExpectancy =mapOf(
             "Ülke Sec" to 0,
@@ -304,13 +124,13 @@ class MainActivity : AppCompatActivity() {
         binding.spinnerCountries.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SuspiciousIndentation")
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                 selectedCountry = binding.spinnerCountries.selectedItem.toString()
-                 lifeExpectancy = countryLifeExpectancy[selectedCountry]!!
+                selectedCountry = binding.spinnerCountries.selectedItem.toString()
+                lifeExpectancy = countryLifeExpectancy[selectedCountry]!!
                 // Seçilen ülkenin ortalama yaşam süresi
                 //Toast.makeText(this@MainActivity, "$selectedCountry'nin ortalama yaşam süresi: $lifeExpectancy", Toast.LENGTH_SHORT).show()
 
                 if (!selectedCountry.equals("Ülke Sec"))
-                binding.tViewTimeLife.text="$selectedCountry'nin ortalama yaşam süresi $lifeExpectancy yildir"
+                    binding.tViewTimeLife.text="$selectedCountry'nin ortalama yaşam süresi $lifeExpectancy yildir"
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -341,8 +161,161 @@ class MainActivity : AppCompatActivity() {
         }
         binding.spinnerCountries.adapter = adapter
     }
+    //--------------------BirthDayDialog------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n")
+    private fun birthdayDialog() {
+        val calendar = Calendar.getInstance().apply {
+            // Bugünün tarihini ayarla
+            time = Date()
+        }
+        val minYear = -1900 // 100 yil önce
+        val maxYear =  2020 // 3000 yılı
 
-    //Kalan Ömür
+        DatePickerDialog(
+            this, R.style.SpinnerDatePickerDialog,
+            { _, year, month, dayOfMonth ->
+
+                birthDate = LocalDateTime.of(year, month+1, dayOfMonth, 0, 0, 0)
+
+                yearDeath=year
+                monthDeath=month
+                dayOfMonthDeath=dayOfMonth
+
+                deathDate = LocalDateTime.of(year+lifeExpectancy, month+1, dayOfMonth, 0, 0, 0) // Bitiş tarihi ve saati
+
+                if (year!=null ||month!=null ||year!=null){
+
+                    binding.tViewBirthDay.text="$dayOfMonth / ${month+1} / $year"
+
+                } else{
+                    //animationHelper.showAnimatedToast("Lütfen, Dogum Tarihinizi  Giriniz")
+                }
+            },
+            calendar[Calendar.YEAR],
+            calendar[Calendar.MONTH],
+            calendar[Calendar.DAY_OF_MONTH]
+        ).apply {
+            // Minimum tarih olarak 1900, maksimum tarih olarak 3000 yılını belirle
+            datePicker.apply {
+
+                maxDate = getMaximumDate(maxYear) // Maksimum tarih
+                minDate = getMinimumDate(minYear) // Minimum tarih
+            }
+        }.show()
+    }
+
+    //--------------------Yasadigi Süre- Yas Hesaplama------------------------------------------------------------
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun upTimerLife(){
+
+        if (birthDate!=null && today!=null){
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+            // Hedef tarih
+            binding.tViewDeathDay.text="$dayOfMonthDeath / ${monthDeath!! +1} / ${yearDeath!! +lifeExpectancy}"
+            // val targetDateString = "2024-12-31 23:59:59" // Örnek bir tarih
+            val targetDateString = "$dayOfMonthDeath-${monthDeath!! +1}-${yearDeath!! +lifeExpectancy} 0:0:0" // Örnek bir tarih
+            val targetDateTime = dateFormat.parse(targetDateString)
+
+            val timer = Timer()
+
+            timer.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    val currentTime = Date()
+                    val difference = targetDateTime.time - currentTime.time
+
+                    if (difference > 0) { // Eğer hedef tarih henüz gelmediyse devam et
+                        val duration = Duration.ofMillis(difference)
+
+                        birthYears = duration.toDays() / 365
+                        val months = (duration.toDays() % 365) / 30
+                        val weeks = (duration.toDays() % 365) % 30 / 7
+                        val days = (duration.toDays() % 365) % 30 % 7
+                        val hours = duration.toHours() % 24
+                        val minutes = duration.toMinutes() % 60
+                        val seconds = duration.seconds
+
+                        yearsLife = birthYears!!.toInt()
+                        var formattedYears   = NumberFormat.getNumberInstance(Locale("tr", "TR")).format(birthYears)
+
+                        val formattedMonths  = (months % 12).toString()
+                        val formattedWeeks   = ((weeks % 52)%4).toString()
+                        val formattedDays    = (((days % 360)%30)%7).toString()
+                        val formattedHours   = ((hours % 8766)%24).toString()
+                        val formattedMinutes = ((minutes % 525960)%60).toString()
+                        val formattedSeconds = ((seconds % 31557600)%60).toString()
+
+                        val year_  = (if(formattedYears> 0.toString())    "${formattedYears} Yil"              else "" ).toString()
+                        val month_  = (if(formattedMonths> 0.toString())   "${formattedMonths} Ay"             else "" ).toString()
+                        val weeks_  = (if(formattedWeeks> 0.toString())    "${formattedWeeks} Hafta"           else "" ).toString()
+                        val days_   = (if(formattedDays> 0.toString())     "${formattedDays} Gün"              else "" ).toString()
+                        val hours_  = (if(formattedHours> 0.toString())    "${formattedHours} Saat"            else "" ).toString()
+                        val minute_ = (if(formattedMinutes> 0.toString())  "${formattedMinutes} Dakika"        else "" ).toString()
+                        val seconds_= (if(formattedSeconds> 0.toString())  "${formattedSeconds} Saniye"        else "" ).toString()
+
+
+                        // Burada zaman birimlerini kullanarak bir sayaç gösterebilirsiniz
+                        // Örneğin: Log.d("TIMER", "$years yıl $months ay $weeks hafta $days gün $hours saat")
+
+                        // UI güncellemelerini runOnUiThread içinde yapabilirsiniz
+                        runOnUiThread {
+                            // UI güncellemeleri burada
+                            // Örneğin: textView.text = "$years yıl $months ay $weeks hafta $days gün $hours saat"
+                            binding.tViewAlter.text ="$year_ $month_ $weeks_ $days_ $hours_ $minute_ $seconds_"
+                        }
+                    } else {
+                        // Hedef tarih geçmişse, sayaç durdurulabilir
+                        timer.cancel()
+                    }
+                }
+            }, 0, 1000) // Her 1 saniyede bir kontrol etmek için
+        }
+
+
+
+
+       /* if (birthDate!=null && today!=null){
+            val difference: Duration = Duration.between(birthDate, today)
+             birthYears = difference.toDays() / 365
+            val months: Long  = difference.toDays() / 30
+            val weeks: Long   = difference.toDays() / 7
+            val days: Long    = difference.toDays()
+            val hours: Long   = difference.toHours()
+            val minutes: Long = difference.toMinutes()
+            val seconds: Long = difference.seconds
+
+            yearsLife = birthYears!!.toInt()
+
+            var formattedYears   = NumberFormat.getNumberInstance(Locale("tr", "TR")).format(birthYears)
+
+            val formattedMonths  = (months % 12).toString()
+            val formattedWeeks   = ((weeks % 52)%4).toString()
+            val formattedDays    = (((days % 360)%30)%7).toString()
+            val formattedHours   = ((hours % 8766)%24).toString()
+            val formattedMinutes = ((minutes % 525960)%60).toString()
+            val formattedSeconds = ((seconds % 31557600)%60).toString()
+
+            val year_  = (if(formattedYears> 0.toString())    "${formattedYears} Yil"              else "" ).toString()
+            val month_  = (if(formattedMonths> 0.toString())   "${formattedMonths} Ay"             else "" ).toString()
+            val weeks_  = (if(formattedWeeks> 0.toString())    "${formattedWeeks} Hafta"           else "" ).toString()
+            val days_   = (if(formattedDays> 0.toString())     "${formattedDays} Gün"              else "" ).toString()
+            val hours_  = (if(formattedHours> 0.toString())    "${formattedHours} Saat"            else "" ).toString()
+            val minute_ = (if(formattedMinutes> 0.toString())  "${formattedMinutes} Dakika"        else "" ).toString()
+            val seconds_= (if(formattedSeconds> 0.toString())  "${formattedSeconds} Saniye"        else "" ).toString()
+
+            binding.tViewAlter.text ="$year_ $month_ $weeks_ $days_ $hours_ $minute_ $seconds_"
+
+        }else{
+            //  animationHelper.showAnimatedToast("Lütfen Tarih Giriniz")
+
+        }
+
+        */
+
+    }
+    //--------------------Geri kalan muhtemel Ömür Hesaplama------------------------------------------------------------
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun remainingLife() {
@@ -368,12 +341,204 @@ class MainActivity : AppCompatActivity() {
             binding.tViewRemainingLife.text ="$years_ $month_ $weeks_ $days_ $hours_ $minute_ $seconds_"
 
         }else{
-           // animationHelper.showAnimatedToast("Lütfen Tarih Giriniz")
+            // animationHelper.showAnimatedToast("Lütfen Tarih Giriniz")
 
         }
 
     }
-    //---------------------remainingLife------------------------------------------------------------
+    @SuppressLint("SuspiciousIndentation")
+    fun progressBarLoading(){
+
+        if (birthYears != null ) {
+            val animationDuration = 1000L // Animasyon süresi (milisaniye cinsinden)
+             desiredProgress = birthYears!!.toInt() // İlerlemek istediğiniz değer
+            // ObjectAnimator oluşturarak ilerlemenin animasyonlu olarak değiştirilmesi
+            val progressAnimator = ObjectAnimator.ofInt(binding.progressBar, "progress",
+                desiredProgress!!
+            )
+            progressAnimator.duration = animationDuration
+            progressAnimator.interpolator = DecelerateInterpolator() // İlerleme animasyonunun türü (opsiyonel olarak)
+
+            if (yearsLife!!>83){
+                binding.percentageTextView.text="100%"
+            }else{
+                binding.percentageTextView.text = "${(lifeExpectancy* desiredProgress!!)/100}%" // TextView güncelleme
+            }
+
+            progressAnimator.start() // Animasyonu başlat
+        } else {
+            // birthYears null ise burada bir işlem yapılabilir veya bir varsayılan değer atanabilir
+        }
+
+
+
+        /*
+                progressStatus=0
+                Thread(Runnable {
+                    if (birthYears!=null && birthYears?.toInt() !=0)
+                    while (progressStatus < 100) {
+                        progressStatus++
+                        try {
+                            Thread.sleep(10) // İlerleme hızı için bekletme süresi
+                        } catch (e: InterruptedException) {
+                            e.printStackTrace()
+                        }
+                        runOnUiThread {
+                        binding.progressBar.progress = progressStatus// ProgressBar1 güncelleme
+                        binding.percentageTextView.text = "$progressStatus%" // TextView güncelleme
+                        }
+                    }
+                }).start()
+
+         */
+
+    }
+    //--------------------Timer------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun downTimerLife() {
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+        if (yearDeath!=null && monthDeath!=null && dayOfMonthDeath!=null){
+
+            val deathDate = "${yearDeath?.plus(lifeExpectancy)}-${monthDeath!!.plus(1)}-$dayOfMonthDeath 0:0:0" // Geri sayımın biteceği tarih ve zaman
+
+            val targetDateTime = dateFormat.parse(deathDate) // Verilen tarihi SimpleDateFormat ile Date nesnesine dönüştür
+
+            timer?.cancel() // Mevcut timer varsa iptal et
+            timer = Timer()
+
+            timer?.scheduleAtFixedRate(object : TimerTask() {
+                @SuppressLint("SetTextI18n", "SuspiciousIndentation")
+                override fun run() {
+                    val currentTime = Date()
+                    if (currentTime.before(targetDateTime)) {
+                        val difference = targetDateTime.time - currentTime.time
+                        val duration   = Duration.ofMillis(difference)
+                        val seconds    = duration.seconds % 60
+                        val minutes    = duration.toMinutes() % 60
+                        val hours      = duration.toHours() % 24
+                        val days       = duration.toDays() % 7
+                        val weeks      = (duration.toDays() / 7)%4
+                        val months     = (duration.toDays() / 30 )%12// Burada her ayı 30 gün olarak kabul ediyoruz (Yaklaşık)
+                        val years      = duration.toDays() / 365 // Burada her yılı 365 gün olarak kabul ediyoruz (Yaklaşık)
+
+                        // Geri sayımı TextView üzerinde gösterme
+                        timerYears   = (if(years!! > 0)    "${years}"             else "0" ).toString()
+                        timerMonths  = (if(months!!> 0)    "${months}"             else "0" ).toString()
+                        timerWeeks   = (if(weeks!!> 0)     "${weeks}"           else "0" ).toString()
+                        timerDays    = (if(days!!> 0)      "${days}"              else "0" ).toString()
+                        timerHours   = (if(hours!!> 0)     "${hours}"            else "0" ).toString()
+                        timerMinutes = (if(minutes!!> 0)   "${minutes}"        else "0" ).toString()
+                        timerSeconds = (if(seconds!!> 0)   "${seconds}"        else "0" ).toString()
+
+
+                        if (timerYears!=null && timerMonths!=null && timerWeeks!=null && timerDays!=null && timerHours!=null && timerMinutes!=null && timerSeconds!=null )
+                            runOnUiThread{
+                                //binding.tvTimerYear.text = "$timerYears  $timerMonths $timerWeeks $timerDays  $timerHours  $timerMinutes   $timerSeconds "
+
+                                binding.tvTimerYear.text  ="$timerYears"
+                                binding.tvTimerMouth.text ="$timerMonths"
+                                binding.tvTimerWeek.text  ="$timerWeeks"
+                                binding.tvTimerDay.text   ="$timerDays"
+                                binding.tvTimerHours.text ="$timerHours"
+                                binding.tvTimerMinute.text="$timerMinutes"
+                                binding.tvTimerSecond.text="$timerSeconds"
+
+                                binding.tViewRemainingLife.text="$timerYears yil $timerMonths Ay $timerWeeks Hafta $timerDays Gün $timerHours Saat $timerMinutes Dakika $timerSeconds Saniye"
+                            }
+
+                    } else {
+                        // Geri sayım bittiğinde TextView'e mesajı gösterme
+                        runOnUiThread {
+                            if (yearsLife!!>83){
+                                binding.tvTimerYear.text =  "0"
+                                binding.tvTimerMouth.text =  "0"
+                                binding.tvTimerWeek.text =   "0"
+                                binding.tvTimerDay.text =   "0"
+                                binding.tvTimerHours.text =  "0"
+                                binding.tvTimerMinute.text =  "0"
+                                binding.tvTimerSecond.text =   "0"
+                            }
+                        }
+                        timer!!.cancel()
+                    }
+                }
+            }, 0, 1000) // 1 saniyede bir geri sayımı kontrol etmek için 1000 milisaniye aralıkla çalıştır
+        }
+
+    }
+
+    //--------------------Reset------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun resetLife(){
+        flag=false
+        binding.tViewBirthDay.text = ""
+        binding.tViewDeathDay.text = ""
+        binding.tViewRemainingLife.text = ""
+        binding.tViewTimeLife.text = ""
+        binding.tViewAlter.text=""
+
+
+        binding.tvTimerYear.text=""
+
+        binding.progressBar.progress=0
+        binding.percentageTextView.text="0%"
+
+        birthDate=null
+        deathDate=null
+        lifeTime()
+        birthYears=0
+        timer?.cancel()
+
+
+    }
+
+    //Button Calculate (Hesapla)
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun calculate(){
+        if (!selectedCountry.equals("Ülke Sec")){
+            upTimerLife()
+          //  remainingLife()
+        }else{
+            animationHelper.showAnimatedToast("Lütfen, Yasadiginiz Ülkeyi Secin ")
+        }
+
+        if (birthDate==null)
+            animationHelper.showAnimatedToast("Lütfen, Dogum Tarihinizi  Girin ")
+
+        if (dayOfMonthDeath !=null && monthDeath!=null && yearDeath!=null && lifeExpectancy!=null)
+
+           binding.tViewDeathDay.text="$dayOfMonthDeath / ${monthDeath!! +1} / ${yearDeath!! +lifeExpectancy}"
+
+        if (yearsLife!=null){
+
+            if ( yearsLife in 0..30)
+                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_young)
+
+            if (yearsLife!! in 31..49)
+                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_old)
+
+             if (yearsLife!!>50)
+                binding.resultLiearlayout.setBackgroundResource(R.drawable.background_very_old)
+
+            if (yearsLife!! > 83) {
+
+                binding.tViewDeathDay.text = ""
+                binding.tViewAlter.text=""
+                binding.tViewRemainingLife.text=""
+
+                 }
+            }
+
+        downTimerLife()
+        progressBarLoading()
+
+
+    }
+
+
     // Belirli bir yılı tarih cinsine çevirerek geri döndürür
     private fun getMaximumDate(maxYear: Int): Long {
         val maxCalendar = Calendar.getInstance().apply {
@@ -390,96 +555,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun downCount() {
-
-        val endDate = Calendar.getInstance().apply {
-            remainingYears?.let { add(Calendar.YEAR, it.toInt()) }
-            remainingMonths?.let { add(Calendar.MONTH, it.toInt()) }
-            remainingDays?.let { add(Calendar.DAY_OF_MONTH, it.toInt()) }
-            remainingHours?.let { add(Calendar.HOUR_OF_DAY, it.toInt()) }
-            remainingMinutes?.let { add(Calendar.MINUTE, it.toInt()) }
-            remainingSeconds?.let { add(Calendar.SECOND, it.toInt()) }
-        }.time
-
-
-        val currentTime = Calendar.getInstance().time
-
-        val difference = endDate.time - currentTime.time
-
-        val timer = timer(period = 1000) {
-            val remainingTime = difference - System.currentTimeMillis()
-
-             downSeconds = remainingTime / 1000 % 60
-             downMinutes = remainingTime / (1000 * 60) % 60
-             downHours   = remainingTime / (1000 * 60 * 60) % 24
-             downDays    = remainingTime / (1000 * 60 * 60 * 24) % 7
-             downWeeks   = remainingTime / (1000 * 60 * 60 * 24 * 7) % 4
-             downMonths  = remainingTime / (1000 * 60 * 60 * 24 * 30) % 12
-             downYears   = remainingTime / (1000 * 60 * 60 * 24 * 365)
-
-
-
-            val years_  = (if(downYears!!   >0)    "${downYears} yil"              else "" ).toString()
-            val month_  = (if(downMonths!!  >0)   "${downMonths} Ay"               else "" ).toString()
-            val weeks_  = (if(downWeeks!!   >0)    "${downWeeks} Hafta"            else "" ).toString()
-            val days_   = (if(downDays!!    >0)     "${downDays} Gün"              else "" ).toString()
-            val hours_  = (if(downHours!!   >0)    "${downHours} Saat"             else "" ).toString()
-            val minute_ = (if(downMinutes!! >0)  "${downMinutes} Dakika"           else "" ).toString()
-            val seconds_= (if(downSeconds!! >0)  "${downSeconds} Saniye"           else "" ).toString()
-
-            binding.tvDownYears.text=years_
-            binding.tvDownMonths.text=month_
-            binding.tvDownWeeks.text=weeks_
-            binding.tvDownDays.text=days_
-            binding.tvDownHours.text=hours_
-            binding.tvDownMinute.text=minute_
-            binding.tvDownSecond.text=seconds_
-
-
-            println("Kalan süre: $years_ yıl, $month_ ay, $weeks_ hafta, $days_ gün, $hours_ saat, $minute_ dakika, $seconds_ saniye")
-
-            if (remainingTime <= 0) {
-                cancel()
-                println("Geri sayım bitti!")
-            }
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun timer() {
-
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-       // val targetDate = "2024-12-31 23:59:59" // Geri sayımın biteceği tarih ve zaman
-        val deathDate = "2024-12-31 23:59:59" // Geri sayımın biteceği tarih ve zaman
-        val targetDateTime = dateFormat.parse(deathDate) // Verilen tarihi SimpleDateFormat ile Date nesnesine dönüştür
-
-        val timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                val currentTime = Date()
-
-                if (currentTime.before(targetDateTime)) {
-                    val difference = targetDateTime.time - currentTime.time
-
-                    val seconds = difference / 1000 % 60
-                    val minutes = difference / (1000 * 60) % 60
-                    val hours = difference / (1000 * 60 * 60) % 24
-                    val days = difference / (1000 * 60 * 60 * 24) % 7
-                    val weeks = difference / (1000 * 60 * 60 * 24 * 7)
-                    val months = difference / (1000 * 60 * 60 * 24 * 30)
-                    val years = difference / (1000 * 60 * 60 * 24 * 365)
-
-                    println("Kalan süre: $years yıl, $months ay, $weeks hafta, $days gün, $hours saat, $minutes dakika, $seconds saniye")
-                } else {
-                    println("Geri sayım bitti!")
-                    timer.cancel()
-                }
-            }
-        }, 0, 1000) // 1 saniyede bir geri sayımı kontrol etmek için 1000 milisaniye aralıkla çalıştır
-    }
 
 }
+
+
 
 
 

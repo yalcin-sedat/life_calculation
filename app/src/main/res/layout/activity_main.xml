@@ -19,6 +19,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kalan Ömrünü Hesapla"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/standard_padding"
+            android:padding="@dimen/standard_padding"
+            android:background="@drawable/background_young">
+
+        </TextView>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,7 +52,7 @@
         android:textColorLink="@color/black"
         android:textStyle="bold"
         android:gravity="center"
-        android:text="dd/MM/yyyy"
+        android:text=""
         android:background="@drawable/background_curve_text"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +78,7 @@
 
     </TextView>
     <TextView
-        android:id="@+id/tView_birth_day"
+        android:id="@+id/tViewBirthDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorLink="@color/black"
@@ -72,7 +86,7 @@
         android:gravity="center"
         android:background="@drawable/background_curve_text"
         android:inputType="datetime"
-        android:text="dd/MM/yyyy"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,13 +128,13 @@
             </TextView>
 
             <TextView
-                android:id="@+id/tView_death_day"
+                android:id="@+id/tViewDeathDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorLink="@color/black"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="dd/MM/yyyy"
+                android:text=""
                 android:background="@drawable/background_curve_text"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,17 +160,15 @@
                 android:textStyle="bold"
                 android:background="@drawable/background_curve_text"
                 android:gravity="center"
-                android:text="dd/MM/yyyy">
+                android:text="">
 
             </TextView>
-
 
 
             <TextView
                 android:id="@+id/tView_remaining_life1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:text="@string/editText_remaining_life"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -176,7 +188,7 @@
                 android:textStyle="bold"
                 android:background="@drawable/background_curve_text"
                 android:gravity="center"
-                android:text="dd/MM/yyyy"
+                android:text=""
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
@@ -185,86 +197,147 @@
                 app:layout_constraintVertical_bias="0.964">
 
             </TextView>
+
+
+
         </LinearLayout>
 
 
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_curve_layout"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_calculater"
+        app:layout_constraintBottom_toTopOf="@+id/layoutProgress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_linearLayout"
-        app:layout_constraintVertical_bias="0.962"
         tools:ignore="MissingConstraints">
 
 
         <TextView
-            android:id="@+id/tvDownYears"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="year"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
-        </TextView>
-        <TextView
-            android:id="@+id/tvDownMonths"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Mounths"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
-        </TextView>
-        <TextView
-            android:id="@+id/tvDownWeeks"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="week"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
+            android:id="@+id/tvTimerYear"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@color/white">
+
         </TextView>
 
         <TextView
-            android:id="@+id/tvDownDays"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Day"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
-        </TextView>
-        <TextView
-            android:id="@+id/tvDownHours"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Hours"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
-        </TextView>
-        <TextView
-            android:id="@+id/tvDownMinute"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Minute"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
-        </TextView>
-        <TextView
-            android:id="@+id/tvDownSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Second"
-            android:textColor="@color/black"
-            android:background="@drawable/background_curve_text">
+            android:id="@+id/tvTimerMouth"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="9"
+            android:textColor="@color/white">
+
         </TextView>
 
+        <TextView
+            android:id="@+id/tvTimerWeek"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvTimerDay"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvTimerHours"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/white">>
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvTimerMinute"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvTimerSecond"
+            android:layout_width="@dimen/paddingTimer"
+            android:layout_height="@dimen/paddingTimer"
+            android:layout_margin="@dimen/marginTimer"
+            android:background="@drawable/background_text_timer"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/white">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/background_curve_layout"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/button_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/custom_progress" />
+
+        <TextView
+            android:id="@+id/percentageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="100%"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <Button
@@ -284,13 +357,9 @@
         android:text="@string/omur_reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_calculater"
-        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.641"
         tools:ignore="MissingConstraints" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
