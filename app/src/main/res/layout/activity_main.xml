@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/design_default_color_background"
+    android:background="@drawable/background_curve"
     tools:context=".MainActivity"
     tools:ignore="HardcodedText">
 
     <LinearLayout
         android:id="@+id/switch_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/background_curve_layout"
         android:gravity="center"
         android:orientation="vertical"
@@ -20,33 +20,24 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kalan Ömrünü Hesapla"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_margin="@dimen/standard_padding"
-            android:padding="@dimen/standard_padding"
-            android:background="@drawable/background_young">
 
-        </TextView>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   android:orientation="vertical"
-    android:background="@drawable/background_curve">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/standard_padding"
+        android:background="@drawable/background_curve">
 
     <Spinner
         android:id="@+id/spinner_countries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="Ülke Sec"
         style="@style/MySpinnerItemStyle">
     </Spinner>
+
     <TextView
-        android:id="@+id/tView_time_life"
+        android:id="@+id/tvCountryLifeTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorLink="@color/black"
@@ -66,8 +57,6 @@
         android:id="@+id/tView_birth_day1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="dogum Tarihinizi Girin"
-        android:inputType="datetime"
         android:text="@string/editText_birt_day"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -78,7 +67,7 @@
 
     </TextView>
     <TextView
-        android:id="@+id/tViewBirthDay"
+        android:id="@+id/tvBirthDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorLink="@color/black"
@@ -98,22 +87,15 @@
 
 </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/background_curve_layout">
-        </LinearLayout>
-
         <LinearLayout
             android:id="@+id/result_liearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/background_result">
+            android:layout_marginTop="@dimen/standard_padding"
+            android:background="@drawable/background_curve">
 
             <TextView
-                android:id="@+id/tView_death_day1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editText_death_day"
@@ -127,46 +109,240 @@
 
             </TextView>
 
-            <TextView
-                android:id="@+id/tViewDeathDay"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorLink="@color/black"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:text=""
-                android:background="@drawable/background_curve_text"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-                app:layout_constraintVertical_bias="0.964">
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:background="@drawable/background_curve">
 
-            </TextView>
+                <TextView
+                    android:id="@+id/tvDeathDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/marginTimer"
+                    android:background="@drawable/background_text_timer"
+                    android:gravity="center"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
             <TextView
-                android:id="@+id/tView_alter1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editText_alter"
                 android:textColor="@color/white">
-
             </TextView>
-            <TextView
-                android:id="@+id/tView_alter"
+
+            <LinearLayout
+                android:id="@+id/tvLifeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorLink="@color/black"
-                android:textStyle="bold"
-                android:background="@drawable/background_curve_text"
-                android:gravity="center"
-                android:text="">
+                android:background="@drawable/background_curve"
+                android:orientation="horizontal">
 
-            </TextView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeYear"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="YIL">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeMounth"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="AY">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeWeek"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="HAFTA">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeDay"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="GUN">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeHours"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="SAAT">
+
+                    </TextView>
+                </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeMinute"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="DK">
+
+                    </TextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLifeSecond"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="SN">
+
+                    </TextView>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
             <TextView
-                android:id="@+id/tView_remaining_life1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/editText_remaining_life"
@@ -179,187 +355,295 @@
                 app:layout_constraintVertical_bias="0.964">
 
             </TextView>
+            <LinearLayout
+                android:id="@+id/tvTimerLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_curve"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tView_remaining_life"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorLink="@color/black"
-                android:textStyle="bold"
-                android:background="@drawable/background_curve_text"
-                android:gravity="center"
-                android:text=""
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tView_birth_day"
-                app:layout_constraintVertical_bias="0.964">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            </TextView>
+                    <TextView
+                        android:id="@+id/tvTimerYear"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="YIL">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerMouth"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="AY">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerWeek"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="HAFTA">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerDay"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="GUN">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerHours"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="SAAT">
+
+                    </TextView>
+                </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerMinute"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="DK">
+
+                    </TextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimerSecond"
+                        android:layout_width="@dimen/paddingTimer"
+                        android:layout_height="@dimen/paddingTimer"
+                        android:layout_margin="@dimen/marginTimer"
+                        android:background="@drawable/background_text_timer"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/white">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="SN">
+
+                    </TextView>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_curve_layout"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/layoutProgress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_linearLayout"
-        tools:ignore="MissingConstraints">
-
-
-        <TextView
-            android:id="@+id/tvTimerYear"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="10"
-            android:textColor="@color/white">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerMouth"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="9"
-            android:textColor="@color/white">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerWeek"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="8"
-            android:textColor="@color/white">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerDay"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="7"
-            android:textColor="@color/white">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerHours"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="6"
-            android:textColor="@color/white">>
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerMinute"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="5"
-            android:textColor="@color/white">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/tvTimerSecond"
-            android:layout_width="@dimen/paddingTimer"
-            android:layout_height="@dimen/paddingTimer"
-            android:layout_margin="@dimen/marginTimer"
-            android:background="@drawable/background_text_timer"
-            android:gravity="center"
-            android:text="4"
-            android:textColor="@color/white">
-
-        </TextView>
-
-
-    </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/layoutProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/background_curve_layout"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_reset"
+        android:layout_marginTop="@dimen/standard_padding"
+        android:background="@drawable/background_curve"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_linearLayout"
         tools:ignore="MissingConstraints">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="350dp"
-            android:layout_height="match_parent"
-            android:max="100"
-            android:progress="0"
-            android:progressDrawable="@drawable/custom_progress" />
+        <TextView
+            android:id="@+id/tvBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yasadigin Ömür:"
+            android:textColor="@color/white">
+        </TextView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/custom_progress" />
 
         <TextView
             android:id="@+id/percentageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:gravity="center"
-            android:text="100%"
+            android:textColor="@color/white"
+            android:text="0%"
             android:textSize="15sp" />
+
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_calculater"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="@string/omur_hesapla"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/standard_padding"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/omur_reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_calculater"
-        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutProgress"
+        app:layout_constraintVertical_bias="0.106"
+        tools:ignore="MissingConstraints">
 
+        <Button
+            android:id="@+id/btnCalculater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_curve"
+            android:text="@string/omur_hesapla"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_curve"
+            android:text="@string/omur_reset"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            tools:ignore="MissingConstraints" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

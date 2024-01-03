@@ -10,7 +10,7 @@
     <string name="text_saat">Saat</string>
     <string name="text_dakika">Dakika</string>
     <string name="text_saniye">Saniye</string>
-    <string name="omur_hesapla">HESAPLA</string>
+    <string name="omur_hesapla">KALAN ÖMRÜNÜ HESAPLA</string>
     <string name="omur_reset">Sifirla</string>
     <string name="textView">Text View</string>
     <string name="editText_birt_day">Dogum Tarihinizi  Girin </string>

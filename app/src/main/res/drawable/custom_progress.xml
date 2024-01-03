@@ -5,6 +5,9 @@
         <shape>
             <solid android:color="#BBA8AE" />
             <corners android:radius="10dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="#FFFFFF" /> <!-- Kenarlık rengi ve kalınlığı -->
         </shape>
     </item>
 
